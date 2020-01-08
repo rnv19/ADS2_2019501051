@@ -6,13 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.Digraph;
 import java.util.*;
-
 /**
  * WordNet
  */
-public class WordNet {
+public class WordNet2 {
     Hashtable<String, ArrayList<Integer>> hts = new Hashtable<>();
+    Digraph dg;
     String[] nouns;
     Integer[] id;
     
@@ -58,7 +59,7 @@ public class WordNet {
                 String[] temp;
                 temp = line.split(",",2);
                 // System.out.println(Arrays.toString(temp));
-                if (temp.length > 1) {
+                if (temp.length != 1) {
                     hypernyms = temp[1].split(",");
                     // System.out.println(Arrays.toString(hypernyms));
                     int in = Integer.parseInt(temp[0]);
@@ -70,7 +71,7 @@ public class WordNet {
                             hth.put(in,al);
                         }
                         al.add(Integer.parseInt(i));
-                        
+                        dg.addEdge(Integer.parseInt(temp[0]),Integer.parseInt(i));
                     } 
                 }
             } 
@@ -83,12 +84,15 @@ public class WordNet {
         }
     }
     
-    
 
     public static void main(String[] args) {
-        WordNet wn = new WordNet();
+        WordNet2 wn = new WordNet2();
         wn.parseSynsets(args[0]);
-        dg = new Digraph(wn.hts.size());
-        // wn.parseHypernyms(args[0]);
+        wn.dg = new Digraph(wn.hts.size());
+        wn.parseHypernyms(args[1]);
+    
+        for (int v = 0; v < wn.dg.V(); v++)
+            for (int w : wn.dg.adj(v))  
+                System.out.println(v + "->" + w);
     }
 }
