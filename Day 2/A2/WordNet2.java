@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.StdOut;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +8,7 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.Digraph;
 import java.util.*;
 /**
- * WordNet
+ * WordNet2
  */
 public class WordNet2 {
     Hashtable<String, ArrayList<Integer>> hts = new Hashtable<>();
@@ -18,7 +17,8 @@ public class WordNet2 {
     Integer[] id;
     
     private void parseSynsets(String filename) {
-        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\Day 1\\wordnet\\"+ filename + ".txt");
+        // hts = new Hashtable<>();
+        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\wordnet\\"+ filename + ".txt");
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -34,6 +34,7 @@ public class WordNet2 {
                         hts.put(string, al);
                     }
                     al.add(temp[0]);
+                    dg.addEdge(Integer.parseInt(temp[0]),Integer.parseInt(string));
                 }
             }
         }
@@ -47,9 +48,9 @@ public class WordNet2 {
     }
 
     private void parseHypernyms(String filename) {
-
-        Hashtable<Integer, ArrayList<Integer>> hth = new Hashtable<>();
-        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\Day 1\\wordnet\\"+ filename + ".txt");
+        Hashtable<String, ArrayList<Integer>> hth = new Hashtable<>();
+        // hth = new Hashtable<>();
+        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\wordnet\\"+ filename + ".txt");
         ArrayList<Integer> al;
         int[] id;
         String[] hypernyms;
@@ -68,7 +69,7 @@ public class WordNet2 {
                             al = hth.get(in);
                         } else {
                             al = new ArrayList<>();
-                            hth.put(in,al);
+                            hth.put(i,al);
                         }
                         al.add(Integer.parseInt(i));
                         dg.addEdge(Integer.parseInt(temp[0]),Integer.parseInt(i));
@@ -87,12 +88,12 @@ public class WordNet2 {
 
     public static void main(String[] args) {
         WordNet2 wn = new WordNet2();
-        wn.parseSynsets(args[0]);
-        wn.dg = new Digraph(wn.hts.size());
-        wn.parseHypernyms(args[1]);
-    
-        for (int v = 0; v < wn.dg.V(); v++)
-            for (int w : wn.dg.adj(v))  
-                System.out.println(v + "->" + w);
+        // wn.parseSynsets(args[0]);
+        wn.dg = new Digraph(wn.dg.size());
+        wn.parseHypernyms(args[0]);
+        System.out.println(wn.dg.V());
+        // for (int v = 0; v < wn.dg.V(); v++)
+        //     for (int w : wn.dg.adj(v))  
+        //         System.out.println(v + "->" + w);
     }
 }

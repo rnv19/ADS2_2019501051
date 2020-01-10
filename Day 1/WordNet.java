@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.Digraph;
 import java.util.*;
 
 /**
@@ -17,8 +18,9 @@ public class WordNet {
     Integer[] id;
     
     private void parseSynsets(String filename) {
-        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\Day 1\\wordnet\\"+ filename + ".txt");
+        File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\wordnet\\"+ filename + ".txt");
         try (Scanner sc = new Scanner(file)) {
+            int size = 0;
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] temp;
@@ -34,7 +36,8 @@ public class WordNet {
                     }
                     al.add(temp[0]);
                 }
-            }
+                size++;
+            }System.out.println(size);
         }
         catch (IOException e) {
             System.out.println("file not found");
@@ -86,9 +89,12 @@ public class WordNet {
     
 
     public static void main(String[] args) {
+        Digraph dg;
         WordNet wn = new WordNet();
         wn.parseSynsets(args[0]);
         dg = new Digraph(wn.hts.size());
+        System.out.println(dg.V());
+        // System.out.println(dg.E());
         // wn.parseHypernyms(args[0]);
     }
 }
