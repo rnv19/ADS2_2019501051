@@ -64,8 +64,9 @@ public class SAP {
 
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         len = Integer.MAX_VALUE;
-        for (int i : v) {
-            for (int j : w) {
+        System.out.println(v);
+        for (Integer i : v) {
+            for (Integer j : w) {
                 if (bfss.hasPathTo(i) && bfsd.hasPathTo(j)) {
                     int temp = bfss.distTo(i) + bfsd.distTo(j);
                     if ( temp < len ) {
