@@ -7,18 +7,22 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import java.util.*;
 /**
  * WordNet3
  */
 public class WordNet4 {
     
-
+    ArrayList<String> nounsList = new ArrayList<>();
     Hashtable<String, ArrayList<Integer>> hts = new Hashtable<>();
     Hashtable<String, ArrayList<Integer>> hth = new Hashtable<>();
     String[] nouns;
     int[] id;
     SAP sapObject;
+    Digraph dg;
+
+
     public WordNet4(String synsets, String hypernyms) {
         Digraph dg;
         // Digraph dg;
@@ -26,9 +30,16 @@ public class WordNet4 {
         Integer[] id;
         parseSynsets(synsets);
         dg = new Digraph(hts.size());
-        sapObject = new SAP(dg);
         parseHypernyms(dg, hypernyms);
+        sapObject = new SAP(dg);
     }
+
+    public boolean isCycle() {
+        DirectedCycle cycle = new DirectedCycle(dg);
+        if (cycle.hasCycle()) return true;
+        else return false;
+    }
+
 
     private void parseSynsets(String synsets) {
         File file = new File("D:\\MSIT\\ADS - 2\\ADS2_2019501051\\wordnet\\"+ synsets + ".txt");
@@ -37,6 +48,7 @@ public class WordNet4 {
                 String line = sc.nextLine();
                 String[] temp;
                 temp = line.split(",");
+                nounsList.add(temp[1]);
                 nouns = temp[1].split(" ");
                 ArrayList al;
                 for (String string : nouns) {
@@ -105,23 +117,36 @@ public class WordNet4 {
     }
 
     public int distance(String nounA, String nounB) {
-        
-        int length = sapObject.length(hts.get(nounA), hts.get(nounB));
-        return length;
+        try {
+            if (nounA.equals(nounB)) {
+                return 0;
+            }
+        return sapObject.length(hts.get(nounA), hts.get(nounB));
+        } catch (IllegalArgumentException e) {
+        }
+        return -1;
     }
 
     public String sap(String nounA, String nounB) {
+        try {
+            if (nounA.equals(nounB)) {
+                return nounA;
+            }
         int anc = sapObject.ancestor(hts.get(nounA),hts.get(nounB));
-        String s = hts.get(anc).toString();
-        return s;
+        if (anc == -1) return "";
+        return nounsList.get(anc);
+        }catch (IllegalArgumentException e) {}
+        return "";
     }
 
 
     public static void main(String[] args) {
         WordNet4 wn = new WordNet4(args[0], args[1]);
-        In in = new In();
-        String s1 = in.readString();
-        String s2 = in.readString();
-        wn.sap(s1, s2);
-    }
+        while (!StdIn.isEmpty()) {
+            String v = StdIn.readString();
+            String w = StdIn.readString();
+            int length   = wn.distance(v, w);
+            String ancestor = wn.sap(v, w);
+            StdOut.printf("length = %s, ancestor = %s\n", length, ancestor);
+        }
 }
