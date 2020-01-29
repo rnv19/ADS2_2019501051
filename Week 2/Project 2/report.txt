@@ -1,0 +1,83 @@
+Project Report - Seam Carving
+
+Problem Statement: 
+Seam-carving is a content-aware image resizing technique where the image is reduced in size by one pixel of height (or width) at a time. 
+A vertical seam in an image is a path of pixels connected from the top to the bottom with one pixel in each row; 
+a horizontal seam is a path of pixels connected from the left to the right with one pixel in each column. 
+the path with the least sum of energy is considered as the seam to remove.
+
+Steps to do:
+Step 1) Calculate energies of pixels of given image
+Step 2) Calculate cumulative energies of pixels of energies from step 1
+Step 3) Find Vertical seam and Horizontal seam using cumulative energy matrix from step 2
+Step 4) Remove the vertical seam and horizontal seam and resize the image
+
+Related Concepts:
+•	2D arrays
+•	matrix transpose 
+•	Formulae for Calculating energies
+•	Topological sort 
+•	Programming Language – Java
+•	Picture API
+
+Code:
+
+public class SeamCarver {
+
+    //time complexity: O(W * H)
+    //space complexity: O(W * H)
+    public SeamCarver(Picture picture){
+    }
+
+    //time complexity: O(W * H)
+    //space complexity: O(W * H)
+    public Picture picture(){
+    }
+
+    //time complexity: O(1)
+    //space complexity: O(1)
+    public int width(){
+    }
+
+    //time complexity: O(1)
+    //space complexity: O(1)
+    public int height(){
+    }
+
+    //time complexity: O(1)
+    //space complexity: O(1)
+    public double energy(int x, int y){
+    }
+
+    //time complexity: O(3*W * H)
+    //space complexity: O(2*W * H)
+    public int[] findVerticalSeam(){
+    }
+
+    //time complexity: O(3*W * H)
+    //space complexity: O(3*W * H)
+    public int[] findHorizontalSeam(){
+    }
+
+
+    //time complexity: O(3*W * H)
+    //space complexity: O(2*W * H)
+    public void removeHorizontalSeam(int[] seam){
+    }
+
+    //time complexity: O(3*W * H)
+    //space complexity: O(2*W * H)
+    public void removeVerticalSeam(int[] seam){
+    }
+
+}
+
+Difficulties Faced:
+•	confusion iterating through rows and column
+•	Removing the seam implementation is different for Horizontal and Vertical
+
+Testcases:
+1.	Remove the horizontal seam
+2.	Energy imposing
+
+Score: 88/100
